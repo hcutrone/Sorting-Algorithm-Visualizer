@@ -13,7 +13,7 @@ x2, y2, x3, y3 = c.coords(b)					     						## Get coords of second rectangle
 c.coords(a, x2, y2, x3, y3)  												## Set coords of first rectangle to that of the second
 c.coords(b, x0, y0, x1, y1)
 
-c.delete(rectangles[0])
+#c.delete(rectangles[0])
 
 c.pack()
 window.mainloop()

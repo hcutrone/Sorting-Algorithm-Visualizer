@@ -2,7 +2,6 @@ import tkinter as tk
 import random
 import time
 
-
 # Creates Window
 window = tk.Tk()
 window.title("Sorting Algorithms")
@@ -58,6 +57,8 @@ def Bubble(): # bubble sort randrec list
 	global rectangles
 	global randRecHeights
 	print ("Bubble")
+	print (rectangles)
+	print (randRecHeights)
 	lenList = len(randRecHeights)     #lenList = # of rectangles
 	index = 1
 	x = 0
@@ -70,19 +71,30 @@ def Bubble(): # bubble sort randrec list
 				index = 1
 				continue
 
-			chartCanvas.itemconfig(rectangles[index], fill = "yellow")
+			chartCanvas.itemconfig(rectangles[index], fill = "yellow")        # mark the two rectangles being compared as yellow
 			chartCanvas.itemconfig(rectangles[index - 1], fill = "yellow")
 			window.update()
-			time.sleep(0.5)
+			time.sleep(0.25)
 
-			if num > randRecHeights[index]:
-				x0, y0, x1, y1 = chartCanvas.coords(rectangles[index - 1])   						    					## Get coords of first rectangle
-				x2, y2, x3, y3 = chartCanvas.coords(rectangles[index])														 #try deleting rectangle and making new one    						## Get coords of second rectangle
-				chartCanvas.delete(rectangles[index])  																		## Set coords of first rectangle to that of the second
-				chartCanvas.delete(rectangles[index - 1])
-				rectangles[index] = chartCanvas.create_rectangle(x0, y0, x1, y1)												## Set coords of second rectangle to that of the first
-				rectangles[index - 1] = chartCanvas.create_rectangle(x2, y2, x3, y3)
-				rectangles[index], rectangles[index - 1] = rectangles[index - 1], rectangles[index] 						
+			if num > randRecHeights[index]: # if first rec > next rec
+				print ("num > rand")
+				# SwapRectangles(rectangles[index - 1], rectangles[index])
+				x1a, y1a, x1b, y1b = chartCanvas.coords(rectangles[index - 1])      # Get coords of first rectangle
+				x2a, y2a, x2b, y2b = chartCanvas.coords(rectangles[index])			# Get coords of second rectangle
+
+				yOffset = y1a - y2a
+
+				chartCanvas.scale(rectangles[index - 1], 0, -yOffset, 1, 1)
+				chartCanvas.scale(rectangles[index], 0, yOffset, 1, 1)
+
+				# chartCanvas.coords(rectangles[index - 1], chartCanvas.coords(rectangles[index]))
+				# chartCanvas.coords(rectangles[index], x1a, y1a, x1b, y1b)
+
+				# chartCanvas.delete(rectangles[index])  							# Delete the rectangles
+				# chartCanvas.delete(rectangles[index - 1])                       #         ''
+				# rectangles[index] = chartCanvas.create_rectangle(x1a, y1a, x1b, y1b)	                                       # Set coords of second rectangle to that of the first
+				# rectangles[index - 1] = chartCanvas.create_rectangle(x2a, y2a, x2b, y2b)                                       # Set coords of first rectangle to that of the second
+				rectangles[index], rectangles[index - 1] = rectangles[index - 1], rectangles[index] 						   # Swap the values in the rectangle list
 				randRecHeights[index], randRecHeights[index - 1] = randRecHeights[index - 1], randRecHeights[index]
 				window.update()
 				swapped = True
@@ -90,7 +102,7 @@ def Bubble(): # bubble sort randrec list
 			chartCanvas.itemconfig(rectangles[index], fill = "red")
 			chartCanvas.itemconfig(rectangles[index - 1], fill = "red")
 			window.update()
-			time.sleep(0.5)
+			time.sleep(0.25)
 
 			index += 1
 		if swapped == False:
@@ -98,6 +110,18 @@ def Bubble(): # bubble sort randrec list
 			break
 		x += 1
 	print("Done")
+	print(rectangles)
+	print(randRecHeights)
+
+# def SwapRectangles(rec1, rec2):
+	# x1a, y1a, x1b, y1b = chartCanvas.coords(rec1)      # Get coords of first rectangle
+	# x2a, y2a, x2b, y2b = chartCanvas.coords(rec2)			# Get coords of second rectangle
+
+	# yOffset = y1a - y2a
+
+	# chartCanvas.scale(rec1, 0, -yOffset, 1, 1)
+	# chartCanvas.scale(rec2, 0, yOffset, 1, 1)
+	# window.update()
 
 
 
@@ -206,27 +230,33 @@ def GetRectangles(size):
 
 # Create frame that will house the controls
 controlFrame = tk.Frame(master = window, height = 50, width = 50, relief = "groove", bd = 5, bg = "gray29")
+
 # Create 3 columns; one for each control. Ensures each widget is equidistant and moves in unison
 controlFrame.columnconfigure(0, weight = 1, minsize = 100)
 controlFrame.columnconfigure(1, weight = 1, minsize = 100)
 controlFrame.columnconfigure(2, weight = 1, minsize = 100)
 controlFrame.rowconfigure(0, weight = 0, minsize = 50)
+
 # Creates drop down menu for sorting algorithms
 sortVar = tk.StringVar() #established string variable
 sortVar.set(sortOptions[0]) #sets first selected variable
 controlSortOption = tk.OptionMenu(controlFrame, sortVar, *sortOptions)
 controlSortOption.config(bg = "gray29")
+
 # Creates drop down for size of chart (number of columns)
 chartVar = tk.StringVar() #established string variable
 chartVar.set(chartOptions[0]) #sets first selected variable
 controlChartOption = tk.OptionMenu(controlFrame, chartVar, *chartOptions, command = GetRectangles)
 controlChartOption.config(bg = "gray29")
+
 # Button that starts sort when clicked
 controlButton = tk.Button(master = controlFrame, text = "SORT", command = StartSort, width = 10, highlightbackground = "gray29")
+
 # Place each item in CONTROLFRAMES rows and columns
 controlSortOption.grid(row = 0, column = 0)
 controlChartOption.grid(row = 0, column = 1)
 controlButton.grid(row = 0, column = 2)
+
 # Places frame in WINDOWS row0 column0
 controlFrame.grid(row = 0, column = 0, sticky = "nsew")
 
