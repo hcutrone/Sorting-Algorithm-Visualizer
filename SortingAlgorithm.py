@@ -57,77 +57,12 @@ def Bubble(): # bubble sort randrec list
 	global rectangles
 	global randRecHeights
 	print ("Bubble")
-	time.sleep(1.5)
+	time.sleep(.75)
 	BubbleSort(randRecHeights)
-
-	# x = 0
-	# while x < len(rectangles) - 1:
-		# chartCanvas.itemconfig(rectangles[x], fill = "yellow")     							    # mark the two rectangles being compared as yellow
-		# chartCanvas.itemconfig(rectangles[x + 1], fill = "yellow")
-	# 	window.update()
-	# 	time.sleep(1)
-
-	# 	x1, y1, x2, y2 = chartCanvas.coords(rectangles[x])
-	# 	chartCanvas.coords(rectangles[x], x1, randRecHeights[x], x2, y2)
-
-	# 	chartCanvas.itemconfig(rectangles[x], fill = "red")        								# put the two rectangles back to red
-	# 	chartCanvas.itemconfig(rectangles[x + 1], fill = "red")
-	# 	window.update()
-
-	# 	x += 1
-
-	# x1, y1, x2, y2 = chartCanvas.coords(rectangles[x])
-	# chartCanvas.coords(rectangles[x], x1, randRecHeights[x], x2, y2)
-	# window.update()
-
-
-	
-	# lenList = len(randRecHeights)     #lenList = # of rectangles
-	# index = 1
-	# x = 0
-	# while x < lenList:
-	# 	swapped = False
-	# 	for num in randRecHeights:
-
-	# 		if index == lenList:
-	# 			chartCanvas.itemconfig(rectangles[index - 1], fill = "green")
-	# 			index = 1
-	# 			continue
-
-			# chartCanvas.itemconfig(rectangles[index], fill = "yellow")        # mark the two rectangles being compared as yellow
-			# chartCanvas.itemconfig(rectangles[index - 1], fill = "yellow")
-	# 		window.update()
-	# 		time.sleep(0.25)
-
-	# 		if num > randRecHeights[index]: # if prev rec > next rec
-	# 			rec1 = rectangles[index - 1]
-	# 			rec2 = rectangles[index]
-
-	# 			x1a, y1a, x1b, y1b = chartCanvas.coords(rec1)      # Get coords of first rectangle
-	# 			x2a, y2a, x2b, y2b = chartCanvas.coords(rec2)	   # Get coords of second rectangle
-
-	# 			chartCanvas.coords(rec1, x2a, y2a, x2b, y2b)
-	# 			chartCanvas.coords(rec2, x1a, y1a, x1b, y1b)
-
-	# 			# chartCanvas.delete(rectangles[index])  							# Delete the rectangles
-	# 			# chartCanvas.delete(rectangles[index - 1])                       #         ''
-	# 			# rectangles[index] = chartCanvas.create_rectangle(x1a, y1a, x1b, y1b)	                                       # Set coords of second rectangle to that of the first
-	# 			# rectangles[index - 1] = chartCanvas.create_rectangle(x2a, y2a, x2b, y2b)                                       # Set coords of first rectangle to that of the second
-	# 			rectangles[index], rectangles[index - 1] = rectangles[index - 1], rectangles[index] 						   # Swap the values in the rectangle list
-	# 			randRecHeights[index], randRecHeights[index - 1] = randRecHeights[index - 1], randRecHeights[index]
-	# 			window.update()
-	# 			swapped = True
-			
-	# 		chartCanvas.itemconfig(rectangles[index], fill = "red")
-	# 		chartCanvas.itemconfig(rectangles[index - 1], fill = "red")
-	# 		window.update()
-	# 		time.sleep(0.25)
-
-	# 		index += 1
-	# 	if swapped == False:
-	# 		x += 1
-	# 		break
-	# 	x += 1
+	for rectangle in rectangles:
+		chartCanvas.itemconfig(rectangle, fill = "green")
+		time.sleep(.25)
+		window.update()
 	print("Done")
 
 def BubbleSort(lst):
@@ -140,6 +75,7 @@ def BubbleSort(lst):
 			chartCanvas.itemconfig(rectangles[x], fill = "yellow")     							    # mark the two rectangles being compared as yellow	
 			chartCanvas.itemconfig(rectangles[x - 1], fill = "yellow")
 			window.update()
+			time.sleep(0.25)
 
 			if lst[x] > lst[x - 1]:
 				swapped = True
@@ -149,17 +85,15 @@ def BubbleSort(lst):
 			chartCanvas.itemconfig(rectangles[x], fill = "red")     							   		# mark the two rectangles being compared as red	
 			chartCanvas.itemconfig(rectangles[x - 1], fill = "red")
 			window.update()
+			time.sleep(0.25)
 			x += 1
 
 def SwapRectangles(index1, index2, lst):
-	window.update()
-	time.sleep(1)
 	x1, y1, x2, y2 = chartCanvas.coords(rectangles[index1])
 	chartCanvas.coords(rectangles[index1], x1, lst[index2], x2, y2)
+	x, y, x1, y1 = chartCanvas.coords(rectangles[index2])
+	chartCanvas.coords(rectangles[index2], x, lst[index1], x1, y1)
 	window.update()
-	time.sleep(1)
-	window.update()
-	time.sleep(1)
 
 
 def Quick():
