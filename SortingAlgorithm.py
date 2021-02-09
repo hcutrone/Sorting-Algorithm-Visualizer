@@ -57,22 +57,29 @@ def Bubble(): # bubble sort randrec list
 	global rectangles
 	global randRecHeights
 	print ("Bubble")
+	time.sleep(1.5)
 	BubbleSort(randRecHeights)
-	time.sleep(0.5)
-	x = 0
-	while x < len(rectangles):
-		chartCanvas.itemconfig(rectangles[x], fill = "yellow")        # mark the two rectangles being compared as yellow
-		chartCanvas.itemconfig(rectangles[x + 1], fill = "yellow")
-		window.update()
-		time.sleep(1)
 
-		x1, y1, x2, y2 = chartCanvas.coords(rectangles[x])
-		chartCanvas.coords(rectangles[x], x1, randRecHeights[x + 1], x2, y2)
+	# x = 0
+	# while x < len(rectangles) - 1:
+		# chartCanvas.itemconfig(rectangles[x], fill = "yellow")     							    # mark the two rectangles being compared as yellow
+		# chartCanvas.itemconfig(rectangles[x + 1], fill = "yellow")
+	# 	window.update()
+	# 	time.sleep(1)
 
-		chartCanvas.itemconfig(rectangles[x], fill = "red")        # mark the two rectangles being compared as yellow
-		chartCanvas.itemconfig(rectangles[x + 1], fill = "red")
+	# 	x1, y1, x2, y2 = chartCanvas.coords(rectangles[x])
+	# 	chartCanvas.coords(rectangles[x], x1, randRecHeights[x], x2, y2)
 
-		x += 1
+	# 	chartCanvas.itemconfig(rectangles[x], fill = "red")        								# put the two rectangles back to red
+	# 	chartCanvas.itemconfig(rectangles[x + 1], fill = "red")
+	# 	window.update()
+
+	# 	x += 1
+
+	# x1, y1, x2, y2 = chartCanvas.coords(rectangles[x])
+	# chartCanvas.coords(rectangles[x], x1, randRecHeights[x], x2, y2)
+	# window.update()
+
 
 	
 	# lenList = len(randRecHeights)     #lenList = # of rectangles
@@ -130,10 +137,29 @@ def BubbleSort(lst):
 		swapped = False
 		x = 1
 		while x < len(lst):
+			chartCanvas.itemconfig(rectangles[x], fill = "yellow")     							    # mark the two rectangles being compared as yellow	
+			chartCanvas.itemconfig(rectangles[x - 1], fill = "yellow")
+			window.update()
+
 			if lst[x] > lst[x - 1]:
 				swapped = True
+				SwapRectangles(x, x - 1, lst)
 				lst[x], lst[x - 1] = lst[x - 1], lst[x]
+		
+			chartCanvas.itemconfig(rectangles[x], fill = "red")     							   		# mark the two rectangles being compared as red	
+			chartCanvas.itemconfig(rectangles[x - 1], fill = "red")
+			window.update()
 			x += 1
+
+def SwapRectangles(index1, index2, lst):
+	window.update()
+	time.sleep(1)
+	x1, y1, x2, y2 = chartCanvas.coords(rectangles[index1])
+	chartCanvas.coords(rectangles[index1], x1, lst[index2], x2, y2)
+	window.update()
+	time.sleep(1)
+	window.update()
+	time.sleep(1)
 
 
 def Quick():
