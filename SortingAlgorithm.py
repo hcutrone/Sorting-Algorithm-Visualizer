@@ -61,7 +61,7 @@ def Bubble(): # bubble sort randrec list
 	BubbleSort(randRecHeights)
 	for rectangle in rectangles:
 		chartCanvas.itemconfig(rectangle, fill = "green")
-		time.sleep(.25)
+		time.sleep(.1)
 		window.update()
 	print("Done")
 
@@ -106,20 +106,38 @@ def Quick():
 
 def QuickSort(lst):
 	if len(lst) > 1:
-		pivot = lst[0]
+		pivot = 0
 		lesser = []
 		equal = []
 		greater = []
 
+		chartCanvas.itemconfig(rectangles[pivot], fill = "yellow")
+		window.update()
+		time.sleep(.5)
+
 		x = 0
 		while x < len(lst):
-			if lst[x] < pivot:
+
+			chartCanvas.itemconfig(rectangles[x], fill = "yellow")
+			window.update()
+			time.sleep(.5)
+
+			if lst[x] < lst[pivot]:
 				lesser.append(lst[x])
-			elif lst[x] > pivot:
+			elif lst[x] > lst[pivot]:
 				greater.append(lst[x])
 			else:
 				equal.append(lst[x])
+
+			if x != pivot:
+				chartCanvas.itemconfig(rectangles[x], fill = "red")
+				window.update()
+				time.sleep(.5)
 			x += 1
+
+		chartCanvas.itemconfig(rectangles[pivot], fill = "red")
+		window.update()
+		time.sleep(.5)
 	else:
 		return lst
 
@@ -138,13 +156,41 @@ def SelectionSort(lst):
 	length = len(lst)
 	x = 0
 	while x < length: 
+		chartCanvas.itemconfig(rectangles[x], fill = "yellow")
+		window.update()
 		i = x + 1
 		minimum = x
+
 		while i < length:
-			if lst[minimum] > lst[i]:
+			chartCanvas.itemconfig(rectangles[i], fill = "yellow")
+			window.update()
+			time.sleep(.25)	
+
+			if lst[minimum] < lst[i]:										# remember, recHeights = distance from top of canvas to top of rectangle, so a larger "recHeight" is a shorter rectangle
+				chartCanvas.itemconfig(rectangles[minimum], fill = "red")
 				minimum = i
+				chartCanvas.itemconfig(rectangles[minimum], fill = "yellow")
+				window.update()
+				time.sleep(.25)
+
+			if minimum != i:
+				chartCanvas.itemconfig(rectangles[i], fill = "red")
+				window.update()
+				time.sleep(.25)
 			i += 1
-		lst[x], lst[minimum] = lst[minimum], lst[x]
+
+		if minimum != x:													# swap
+			chartCanvas.itemconfig(rectangles[x], fill = "yellow")
+			window.update()
+			time.sleep(.25)
+			SwapRectangles(x, minimum, lst)
+			chartCanvas.itemconfig(rectangles[minimum], fill = "red")
+
+		chartCanvas.itemconfig(rectangles[x], fill = "green")
+		window.update()
+		time.sleep(.25)
+		
+		lst[x], lst[minimum] = lst[minimum], lst[x] 
 		x += 1
 
 def Insertion():
@@ -152,6 +198,10 @@ def Insertion():
 	global rectangles
 	global randRecHeights
 	InsertionSort(randRecHeights)
+	for rectangle in rectangles:
+		chartCanvas.itemconfig(rectangle, fill = "green")
+		time.sleep(.1)
+		window.update()
 	print("Done")
 
 def InsertionSort(lst):
@@ -159,10 +209,32 @@ def InsertionSort(lst):
 	while x < len(lst):
 		key = x
 		i = x - 1
-		while lst[key] < lst[i] and key > 0:
+
+		chartCanvas.itemconfig(rectangles[key], fill = "yellow")
+		chartCanvas.itemconfig(rectangles[i], fill = "yellow")
+		window.update()
+		time.sleep(.25)
+
+		while lst[key] > lst[i] and key > 0:
+			SwapRectangles(key, i, lst)
 			lst[key], lst[i] = lst[i], lst[key]
+
+			chartCanvas.itemconfig(rectangles[key], fill = "red")
+			chartCanvas.itemconfig(rectangles[i], fill = "red")
+			window.update()
+
 			key -= 1
 			i -= 1
+
+			chartCanvas.itemconfig(rectangles[key], fill = "yellow")
+			if i >= 0:
+				chartCanvas.itemconfig(rectangles[i], fill = "yellow")
+			window.update()
+			time.sleep(.25)
+
+		chartCanvas.itemconfig(rectangles[key], fill = "red")
+		chartCanvas.itemconfig(rectangles[i], fill = "red")
+		window.update()
 		x += 1
 		
 
