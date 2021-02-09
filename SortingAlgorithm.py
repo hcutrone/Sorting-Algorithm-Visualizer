@@ -127,19 +127,111 @@ def Bubble(): # bubble sort randrec list
 
 def Quick():
 	print ("Quick")
+	global rectangles
+	global randRecHeights
+	print (rectangles)
+	print (randRecHeights)
+	randRecHeights = QuickSort(randRecHeights)
+	print (rectangles)
+	print (randRecHeights)
+
+def QuickSort(lst):
+	if len(lst) > 1:
+		pivot = lst[0]
+		lesser = []
+		equal = []
+		greater = []
+
+		x = 0
+		while x < len(lst):
+			if lst[x] < pivot:
+				lesser.append(lst[x])
+			elif lst[x] > pivot:
+				greater.append(lst[x])
+			else:
+				equal.append(lst[x])
+			x += 1
+	else:
+		return lst
+
+	return QuickSort(lesser) + equal + QuickSort(greater)
+
+
 
 def Selection():
 	print ("Selection")
+	SelectionSort(randRecHeights)
+
+def SelectionSort(lst):
+	length = len(lst)
+	x = 0
+	while x < length: 
+		i = x + 1
+		minimum = x
+		while i < length:
+			if lst[minimum] > lst[i]:
+				minimum = i
+			i += 1
+		lst[x], lst[minimum] = lst[minimum], lst[x]
+		x += 1
 
 def Insertion():
 	print ("Insertion")
+	global rectangles
+	global randRecHeights
+	InsertionSort(randRecHeights)
+
+def InsertionSort(lst):
+	x = 1
+	while x < len(lst):
+		key = x
+		i = x - 1
+		while lst[key] < lst[i] and key > 0:
+			lst[key], lst[i] = lst[i], lst[key]
+			key -= 1
+			i -= 1
+		x += 1
+		
 
 def Merge():
 	print ("Merge")
+	global rectangles
+	global randRecHeights
+	MergeSort(randRecHeights)
 
+def MergeSort(lst):
+	if len(lst) > 1:
+		mid = len(lst) // 2
+		leftList = lst[:mid]
+		rightList = lst[mid:]
 
+		MergeSort(leftList)
+		MergeSort(rightList)
 
+		left = 0	# counter for left list
+		right = 0	# counter for right list
+		result = 0	# counter for retured (sorted) list
 
+		while left < len(leftList) and right < len(rightList): # iterate through the two lists, and put the greater value of the two compared indexes in the result. Only increment list index when it was the greater value (placed into new list)
+
+			if leftList[left] < rightList[right]:
+				lst[result] = leftList[left]
+				left += 1
+			else:
+				lst[result] = rightList[right]
+				right += 1
+
+			result += 1
+
+		while left < len(leftList):					# if any values are left in either list (one is longer than the other), put them in the resulting list 
+			lst[result] = leftList[left]
+			left += 1
+			result += 1
+
+		while right < len(rightList):
+			lst[result] = rightList[right]
+			right += 1
+			result += 1
 
 
 
