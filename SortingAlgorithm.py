@@ -98,6 +98,7 @@ def SwapRectangles(index1, index2, lst):
 
 def Quick():
 	print ("Quick")
+	time.sleep(.75)
 	global rectangles
 	global randRecHeights
 	randRecHeights = QuickSort(randRecHeights)
