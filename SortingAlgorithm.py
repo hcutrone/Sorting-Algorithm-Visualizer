@@ -57,83 +57,91 @@ def Bubble(): # bubble sort randrec list
 	global rectangles
 	global randRecHeights
 	print ("Bubble")
-	print (rectangles)
-	print (randRecHeights)
-	lenList = len(randRecHeights)     #lenList = # of rectangles
-	index = 1
+	BubbleSort(randRecHeights)
+	time.sleep(0.5)
 	x = 0
-	while x < lenList:
-		swapped = False
-		for num in randRecHeights:
+	while x < len(rectangles):
+		chartCanvas.itemconfig(rectangles[x], fill = "yellow")        # mark the two rectangles being compared as yellow
+		chartCanvas.itemconfig(rectangles[x + 1], fill = "yellow")
+		window.update()
+		time.sleep(1)
 
-			if index == lenList:
-				chartCanvas.itemconfig(rectangles[index - 1], fill = "green")
-				index = 1
-				continue
+		x1, y1, x2, y2 = chartCanvas.coords(rectangles[x])
+		chartCanvas.coords(rectangles[x], x1, randRecHeights[x + 1], x2, y2)
 
-			chartCanvas.itemconfig(rectangles[index], fill = "yellow")        # mark the two rectangles being compared as yellow
-			chartCanvas.itemconfig(rectangles[index - 1], fill = "yellow")
-			window.update()
-			time.sleep(0.25)
+		chartCanvas.itemconfig(rectangles[x], fill = "red")        # mark the two rectangles being compared as yellow
+		chartCanvas.itemconfig(rectangles[x + 1], fill = "red")
 
-			if num > randRecHeights[index]: # if first rec > next rec
-				print ("num > rand")
-				# SwapRectangles(rectangles[index - 1], rectangles[index])
-				x1a, y1a, x1b, y1b = chartCanvas.coords(rectangles[index - 1])      # Get coords of first rectangle
-				x2a, y2a, x2b, y2b = chartCanvas.coords(rectangles[index])			# Get coords of second rectangle
-
-				yOffset = y1a - y2a
-
-				chartCanvas.scale(rectangles[index - 1], 0, -yOffset, 1, 1)
-				chartCanvas.scale(rectangles[index], 0, yOffset, 1, 1)
-
-				# chartCanvas.coords(rectangles[index - 1], chartCanvas.coords(rectangles[index]))
-				# chartCanvas.coords(rectangles[index], x1a, y1a, x1b, y1b)
-
-				# chartCanvas.delete(rectangles[index])  							# Delete the rectangles
-				# chartCanvas.delete(rectangles[index - 1])                       #         ''
-				# rectangles[index] = chartCanvas.create_rectangle(x1a, y1a, x1b, y1b)	                                       # Set coords of second rectangle to that of the first
-				# rectangles[index - 1] = chartCanvas.create_rectangle(x2a, y2a, x2b, y2b)                                       # Set coords of first rectangle to that of the second
-				rectangles[index], rectangles[index - 1] = rectangles[index - 1], rectangles[index] 						   # Swap the values in the rectangle list
-				randRecHeights[index], randRecHeights[index - 1] = randRecHeights[index - 1], randRecHeights[index]
-				window.update()
-				swapped = True
-			
-			chartCanvas.itemconfig(rectangles[index], fill = "red")
-			chartCanvas.itemconfig(rectangles[index - 1], fill = "red")
-			window.update()
-			time.sleep(0.25)
-
-			index += 1
-		if swapped == False:
-			x += 1
-			break
 		x += 1
+
+	
+	# lenList = len(randRecHeights)     #lenList = # of rectangles
+	# index = 1
+	# x = 0
+	# while x < lenList:
+	# 	swapped = False
+	# 	for num in randRecHeights:
+
+	# 		if index == lenList:
+	# 			chartCanvas.itemconfig(rectangles[index - 1], fill = "green")
+	# 			index = 1
+	# 			continue
+
+			# chartCanvas.itemconfig(rectangles[index], fill = "yellow")        # mark the two rectangles being compared as yellow
+			# chartCanvas.itemconfig(rectangles[index - 1], fill = "yellow")
+	# 		window.update()
+	# 		time.sleep(0.25)
+
+	# 		if num > randRecHeights[index]: # if prev rec > next rec
+	# 			rec1 = rectangles[index - 1]
+	# 			rec2 = rectangles[index]
+
+	# 			x1a, y1a, x1b, y1b = chartCanvas.coords(rec1)      # Get coords of first rectangle
+	# 			x2a, y2a, x2b, y2b = chartCanvas.coords(rec2)	   # Get coords of second rectangle
+
+	# 			chartCanvas.coords(rec1, x2a, y2a, x2b, y2b)
+	# 			chartCanvas.coords(rec2, x1a, y1a, x1b, y1b)
+
+	# 			# chartCanvas.delete(rectangles[index])  							# Delete the rectangles
+	# 			# chartCanvas.delete(rectangles[index - 1])                       #         ''
+	# 			# rectangles[index] = chartCanvas.create_rectangle(x1a, y1a, x1b, y1b)	                                       # Set coords of second rectangle to that of the first
+	# 			# rectangles[index - 1] = chartCanvas.create_rectangle(x2a, y2a, x2b, y2b)                                       # Set coords of first rectangle to that of the second
+	# 			rectangles[index], rectangles[index - 1] = rectangles[index - 1], rectangles[index] 						   # Swap the values in the rectangle list
+	# 			randRecHeights[index], randRecHeights[index - 1] = randRecHeights[index - 1], randRecHeights[index]
+	# 			window.update()
+	# 			swapped = True
+			
+	# 		chartCanvas.itemconfig(rectangles[index], fill = "red")
+	# 		chartCanvas.itemconfig(rectangles[index - 1], fill = "red")
+	# 		window.update()
+	# 		time.sleep(0.25)
+
+	# 		index += 1
+	# 	if swapped == False:
+	# 		x += 1
+	# 		break
+	# 	x += 1
 	print("Done")
-	print(rectangles)
-	print(randRecHeights)
 
-# def SwapRectangles(rec1, rec2):
-	# x1a, y1a, x1b, y1b = chartCanvas.coords(rec1)      # Get coords of first rectangle
-	# x2a, y2a, x2b, y2b = chartCanvas.coords(rec2)			# Get coords of second rectangle
-
-	# yOffset = y1a - y2a
-
-	# chartCanvas.scale(rec1, 0, -yOffset, 1, 1)
-	# chartCanvas.scale(rec2, 0, yOffset, 1, 1)
-	# window.update()
-
+def BubbleSort(lst):
+	swapped = True
+	runs = 0
+	while swapped and runs < len(lst):
+		swapped = False
+		x = 1
+		while x < len(lst):
+			if lst[x] > lst[x - 1]:
+				swapped = True
+				lst[x], lst[x - 1] = lst[x - 1], lst[x]
+			x += 1
 
 
 def Quick():
 	print ("Quick")
 	global rectangles
 	global randRecHeights
-	print (rectangles)
-	print (randRecHeights)
 	randRecHeights = QuickSort(randRecHeights)
-	print (rectangles)
-	print (randRecHeights)
+	print("Done")
 
 def QuickSort(lst):
 	if len(lst) > 1:
@@ -160,7 +168,10 @@ def QuickSort(lst):
 
 def Selection():
 	print ("Selection")
+	global rectangles
+	global randRecHeights
 	SelectionSort(randRecHeights)
+	print("Done")
 
 def SelectionSort(lst):
 	length = len(lst)
@@ -180,6 +191,7 @@ def Insertion():
 	global rectangles
 	global randRecHeights
 	InsertionSort(randRecHeights)
+	print("Done")
 
 def InsertionSort(lst):
 	x = 1
@@ -198,6 +210,7 @@ def Merge():
 	global rectangles
 	global randRecHeights
 	MergeSort(randRecHeights)
+	print("Done")
 
 def MergeSort(lst):
 	if len(lst) > 1:
