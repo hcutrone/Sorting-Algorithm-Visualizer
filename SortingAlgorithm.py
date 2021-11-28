@@ -21,6 +21,8 @@ rectangles = []
 # Options for sorting methods and chart sizes
 sortOptions = ["Bubble", "Quick", "Selection", "Insertion", "Merge"]
 chartOptions = ["Tiny", "Small", "Medium", "Large", "Gigantic"]
+speedOptions = ["Slow", "Normal", "Fast", "Insane", "Instant"]
+wait = .75
 
 
 
@@ -57,11 +59,11 @@ def Bubble(): # bubble sort randrec list
 	global rectangles
 	global randRecHeights
 	print ("Bubble")
-	time.sleep(.75)
+	time.sleep(wait)
 	BubbleSort(randRecHeights)
 	for rectangle in rectangles:
 		chartCanvas.itemconfig(rectangle, fill = "green")
-		time.sleep(.25)
+		time.sleep(wait)
 		window.update()
 	print("Done")
 
@@ -75,7 +77,7 @@ def BubbleSort(lst):
 			chartCanvas.itemconfig(rectangles[x], fill = "yellow")     							    # mark the two rectangles being compared as yellow	
 			chartCanvas.itemconfig(rectangles[x - 1], fill = "yellow")
 			window.update()
-			time.sleep(0.25)
+			time.sleep(wait)
 
 			if lst[x] > lst[x - 1]:
 				swapped = True
@@ -85,7 +87,7 @@ def BubbleSort(lst):
 			chartCanvas.itemconfig(rectangles[x], fill = "red")     							   		# mark the two rectangles being compared as red	
 			chartCanvas.itemconfig(rectangles[x - 1], fill = "red")
 			window.update()
-			time.sleep(0.25)
+			time.sleep(wait)
 			x += 1
 
 def SwapRectangles(index1, index2, lst):
@@ -206,10 +208,21 @@ def MergeSort(lst):
 			right += 1
 			result += 1
 
-
+def SetSpeed(speed):
+	if speed == "Slow":
+		wait = 1
+	elif speed == "Normal":
+		wait = .75
+	elif speed == "Fast":
+		wait = .50
+	elif speed == "Insane":
+		wait = .25
+	elif speed == "Instant":
+		wait = 0
 
 # Begins the sorting algorithm
 def StartSort():
+	SetSpeed(speedVar.get())
 	GetRectangles(chartVar.get())     ###### MAY NOT NEED WHEN SORTING IS DONE ######
 	DrawRandomRectangles()
 	window.update()
@@ -300,6 +313,7 @@ controlFrame = tk.Frame(master = window, height = 50, width = 50, relief = "groo
 controlFrame.columnconfigure(0, weight = 1, minsize = 100)
 controlFrame.columnconfigure(1, weight = 1, minsize = 100)
 controlFrame.columnconfigure(2, weight = 1, minsize = 100)
+controlFrame.columnconfigure(3, weight = 1, minsize = 100)
 controlFrame.rowconfigure(0, weight = 0, minsize = 50)
 
 # Creates drop down menu for sorting algorithms
@@ -314,13 +328,20 @@ chartVar.set(chartOptions[0]) #sets first selected variable
 controlChartOption = tk.OptionMenu(controlFrame, chartVar, *chartOptions, command = GetRectangles)
 controlChartOption.config(bg = "gray29")
 
+# Creates drop down for speed of sort
+speedVar = tk.StringVar() # established string variable
+speedVar.set(speedOptions[0]) # sets first selected variable
+controlSpeedOption = tk.OptionMenu(controlFrame, speedVar, *speedOptions)
+controlSpeedOption.config(bg = "gray29")
+
 # Button that starts sort when clicked
 controlButton = tk.Button(master = controlFrame, text = "SORT", command = StartSort, width = 10, highlightbackground = "gray29")
 
 # Place each item in CONTROLFRAMES rows and columns
 controlSortOption.grid(row = 0, column = 0)
 controlChartOption.grid(row = 0, column = 1)
-controlButton.grid(row = 0, column = 2)
+controlSpeedOption.grid(row = 0, column = 2)
+controlButton.grid(row = 0, column = 3)
 
 # Places frame in WINDOWS row0 column0
 controlFrame.grid(row = 0, column = 0, sticky = "nsew")
