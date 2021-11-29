@@ -104,6 +104,7 @@ def Quick():
 	global rectangles
 	global randRecHeights
 	randRecHeights = QuickSort(randRecHeights)
+	print(randRecHeights)
 	print("Done")
 
 def QuickSort(lst):
@@ -115,14 +116,13 @@ def QuickSort(lst):
 
 		chartCanvas.itemconfig(rectangles[pivot], fill = "yellow")
 		window.update()
-		time.sleep(.5)
+		time.sleep(wait)
 
 		x = 0
 		while x < len(lst):
-
 			chartCanvas.itemconfig(rectangles[x], fill = "yellow")
 			window.update()
-			time.sleep(.5)
+			time.sleep(wait)
 
 			if lst[x] < lst[pivot]:
 				lesser.append(lst[x])
@@ -134,12 +134,12 @@ def QuickSort(lst):
 			if x != pivot:
 				chartCanvas.itemconfig(rectangles[x], fill = "red")
 				window.update()
-				time.sleep(.5)
+				time.sleep(wait)
 			x += 1
 
 		chartCanvas.itemconfig(rectangles[pivot], fill = "red")
 		window.update()
-		time.sleep(.5)
+		time.sleep(wait)
 	else:
 		return lst
 
@@ -166,31 +166,31 @@ def SelectionSort(lst):
 		while i < length:
 			chartCanvas.itemconfig(rectangles[i], fill = "yellow")
 			window.update()
-			time.sleep(.25)	
+			time.sleep(wait)	
 
 			if lst[minimum] < lst[i]:										# remember, recHeights = distance from top of canvas to top of rectangle, so a larger "recHeight" is a shorter rectangle
 				chartCanvas.itemconfig(rectangles[minimum], fill = "red")
 				minimum = i
 				chartCanvas.itemconfig(rectangles[minimum], fill = "yellow")
 				window.update()
-				time.sleep(.25)
+				time.sleep(wait)
 
 			if minimum != i:
 				chartCanvas.itemconfig(rectangles[i], fill = "red")
 				window.update()
-				time.sleep(.25)
+				time.sleep(wait)
 			i += 1
 
 		if minimum != x:													# swap
 			chartCanvas.itemconfig(rectangles[x], fill = "yellow")
 			window.update()
-			time.sleep(.25)
+			time.sleep(wait)
 			SwapRectangles(x, minimum, lst)
 			chartCanvas.itemconfig(rectangles[minimum], fill = "red")
 
 		chartCanvas.itemconfig(rectangles[x], fill = "green")
 		window.update()
-		time.sleep(.25)
+		time.sleep(wait)
 		
 		lst[x], lst[minimum] = lst[minimum], lst[x] 
 		x += 1
@@ -215,7 +215,7 @@ def InsertionSort(lst):
 		chartCanvas.itemconfig(rectangles[key], fill = "yellow")
 		chartCanvas.itemconfig(rectangles[i], fill = "yellow")
 		window.update()
-		time.sleep(.25)
+		time.sleep(wait)
 
 		while lst[key] > lst[i] and key > 0:
 			SwapRectangles(key, i, lst)
@@ -232,7 +232,7 @@ def InsertionSort(lst):
 			if i >= 0:
 				chartCanvas.itemconfig(rectangles[i], fill = "yellow")
 			window.update()
-			time.sleep(.25)
+			time.sleep(wait)
 
 		chartCanvas.itemconfig(rectangles[key], fill = "red")
 		chartCanvas.itemconfig(rectangles[i], fill = "red")
@@ -260,18 +260,30 @@ def MergeSort(lst):
 		right = 0	# counter for right list
 		result = 0	# counter for retured (sorted) list
 
-		while left < len(leftList) and right < len(rightList): # iterate through the two lists, and put the greater value of the two compared indexes in the result. Only increment list index when it was the greater value (placed into new list)
-
+		# iterate through the two lists, and put the greater value of the two compared indexes in the result.
+		# Only increment list index when it was the greater value (placed into new list)
+		while left < len(leftList) and right < len(rightList): 
+			chartCanvas.itemconfig(rectangles[left], fill = "yellow")
+			chartCanvas.itemconfig(rectangles[right + mid], fill = "yellow")
+			window.update()
+			time.sleep(wait)
 			if leftList[left] < rightList[right]:
+				# need to swap rectangle at 'result' and rectangle and leftList[left]
 				lst[result] = leftList[left]
+				chartCanvas.itemconfig(rectangles[left], fill = "red")
+				chartCanvas.itemconfig(rectangles[right + mid], fill = "red")
 				left += 1
 			else:
 				lst[result] = rightList[right]
+				chartCanvas.itemconfig(rectangles[left], fill = "red")
+				chartCanvas.itemconfig(rectangles[right + mid], fill = "red")
 				right += 1
-
 			result += 1
 
-		while left < len(leftList):					# if any values are left in either list (one is longer than the other), put them in the resulting list 
+			window.update()
+			time.sleep(wait)
+		# if any values are left in either list (one is longer than the other), put them in the resulting list 
+		while left < len(leftList):
 			lst[result] = leftList[left]
 			left += 1
 			result += 1
